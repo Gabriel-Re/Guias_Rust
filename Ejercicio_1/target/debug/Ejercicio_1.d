@@ -1,0 +1,1 @@
+/home/gabore/Escritorio/Facu/Taller/Guia_1/Ejercicio_1_v2/target/debug/Ejercicio_1: /home/gabore/Escritorio/Facu/Taller/Guia_1/Ejercicio_1_v2/src/ahorcado.rs /home/gabore/Escritorio/Facu/Taller/Guia_1/Ejercicio_1_v2/src/main.rs
