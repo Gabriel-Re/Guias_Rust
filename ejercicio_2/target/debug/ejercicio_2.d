@@ -1,0 +1,1 @@
+/home/gabore/Escritorio/Facu/Taller/Guias_Rust/Guia_2/ejercicio_2/target/debug/ejercicio_2: /home/gabore/Escritorio/Facu/Taller/Guias_Rust/Guia_2/ejercicio_2/src/main.rs /home/gabore/Escritorio/Facu/Taller/Guias_Rust/Guia_2/ejercicio_2/src/manejo_archivos.rs
