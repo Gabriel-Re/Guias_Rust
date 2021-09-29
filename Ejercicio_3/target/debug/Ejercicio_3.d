@@ -1,1 +1,1 @@
-/home/gabore/Escritorio/Facu/Taller/Guia_1/Ejercicio_3/target/debug/Ejercicio_3: /home/gabore/Escritorio/Facu/Taller/Guia_1/Ejercicio_3/src/main.rs
+/home/gabore/Escritorio/Facu/Taller/Guias_Rust/Ejercicio_3/target/debug/Ejercicio_3: /home/gabore/Escritorio/Facu/Taller/Guias_Rust/Ejercicio_3/src/main.rs /home/gabore/Escritorio/Facu/Taller/Guias_Rust/Ejercicio_3/src/preprocesamiento.rs
