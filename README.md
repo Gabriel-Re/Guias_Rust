@@ -10,6 +10,6 @@
 
 ## Guia2: Ownership en Rust
 
-### Ejercico 1  (sin hacer)
+### Ejercico 1  
 
-### Ejercicio 2 - diff (sin hacer)
+### Ejercicio 2 - diff (incompleto)
