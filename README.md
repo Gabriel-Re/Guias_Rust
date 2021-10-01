@@ -13,3 +13,7 @@
 ### Ejercico 1  
 
 ### Ejercicio 2 - diff (incompleto)
+
+## Guia2: Concurrencia en Rust
+
+### Ejercicio 1 - Cuentas bancarias
