@@ -1,6 +1,5 @@
 use std::thread;
 use std::sync::mpsc;
-use std::time::Duration;
 
 struct Account(i32);
 
@@ -64,26 +63,6 @@ fn main() {
         }
         Ok(())
 
-        //let mut cuenta_bancaria = primer_receptor.recv().unwrap();
-        //cuenta_bancaria.withdraw(30);
-        //segundo_emisor.send(cuenta_bancaria).unwrap();
-
-        /*
-        match cuenta_bancaria{
-            Account => println!("sos una cuenta pa"),
-            RecvError => return Err(mpsc::RecvError),
-        }
-        */
-
-        /*
-        let mut cuenta_bancaria_ = match primer_receptor.recv(){
-            Ok(_) => cuenta_bancaria,
-            Err(RecvError) => return Err(mpsc::RecvError),
-        };
-        cuenta_bancaria.withdraw(30);
-        segundo_emisor.send(cuenta_bancaria);
-        Ok(())
-        */
     });
     
     let customer3_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
@@ -96,19 +75,6 @@ fn main() {
         }
         Ok(())
 
-        //let mut cuenta_bancaria = segundo_receptor.recv().unwrap();
-        //cuenta_bancaria.deposit(60);
-        //tercer_emisor.send(cuenta_bancaria).unwrap();
-        
-        /*
-        let mut cuenta_bancaria_ = match segundo_receptor.recv(){
-            Ok(_) => cuenta_bancaria,
-            Err(RecvError) => return Err(mpsc::RecvError),
-        };
-        cuenta_bancaria.deposit(60);
-        tercer_emisor.send(cuenta_bancaria);
-        Ok(())
-        */
     });
     
     let customer4_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
@@ -121,17 +87,6 @@ fn main() {
         }
         Ok(())
 
-        //let mut cuenta_bancaria = tercer_receptor.recv().unwrap();
-        //cuenta_bancaria.withdraw(70);
-        //cuarto_emisor.send(cuenta_bancaria).unwrap();
-        /*
-        let mut cuenta_bancaria_ = match tercer_receptor.recv(){
-            Ok(_) => cuenta_bancaria,
-            Err(RecvError) => return Err(mpsc::RecvError),
-        };
-        cuenta_bancaria.withdraw(70);
-        Ok(())
-        */
     });
     
     let handles = vec![
@@ -142,7 +97,7 @@ fn main() {
     
     for handle in handles {
         if let Err(_error) = handle.join(){
-            panic!("Error con los threads");
+            panic!("Hubo un error con los threads");
         }
     }
 
@@ -151,7 +106,7 @@ fn main() {
     
         println!("Balance: {:?}", savings);
     }else{
-        panic!("Error con los threads");
+        panic!("Hubo un error con los threads");
     }
 
 }
