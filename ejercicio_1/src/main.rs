@@ -45,16 +45,28 @@ fn main() {
         sending ends that produce values but only one receiving end that consumes those values
     */
 
-    let customer1_handle = thread::spawn(move ||{
+    let customer1_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
         let mut cuenta_bancaria = cuenta_bancaria;
         cuenta_bancaria.deposit(40);
-        primer_emisor.send(cuenta_bancaria).unwrap();
+
+        if let Err(_error) = primer_emisor.send(cuenta_bancaria){
+            return Err(mpsc::RecvError);
+        }
+        Ok(())
     });
     
-    let customer2_handle = thread::spawn(move ||{
-        let mut cuenta_bancaria = primer_receptor.recv().unwrap();
-        cuenta_bancaria.withdraw(30);
-        segundo_emisor.send(cuenta_bancaria).unwrap();
+    let customer2_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
+        if let Ok(mut cuenta_bancaria) = primer_receptor.recv(){
+            cuenta_bancaria.withdraw(30);
+            segundo_emisor.send(cuenta_bancaria);
+        }else{
+            return Err(mpsc::RecvError);
+        }
+        Ok(())
+
+        //let mut cuenta_bancaria = primer_receptor.recv().unwrap();
+        //cuenta_bancaria.withdraw(30);
+        //segundo_emisor.send(cuenta_bancaria).unwrap();
 
         /*
         match cuenta_bancaria{
@@ -74,10 +86,19 @@ fn main() {
         */
     });
     
-    let customer3_handle = thread::spawn(move ||{
-        let mut cuenta_bancaria = segundo_receptor.recv().unwrap();
-        cuenta_bancaria.deposit(60);
-        tercer_emisor.send(cuenta_bancaria).unwrap();
+    let customer3_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
+
+        if let Ok(mut cuenta_bancaria) = segundo_receptor.recv(){
+            cuenta_bancaria.deposit(60);
+            tercer_emisor.send(cuenta_bancaria);
+        }else{
+            return Err(mpsc::RecvError);
+        }
+        Ok(())
+
+        //let mut cuenta_bancaria = segundo_receptor.recv().unwrap();
+        //cuenta_bancaria.deposit(60);
+        //tercer_emisor.send(cuenta_bancaria).unwrap();
         
         /*
         let mut cuenta_bancaria_ = match segundo_receptor.recv(){
@@ -90,10 +111,19 @@ fn main() {
         */
     });
     
-    let customer4_handle = thread::spawn(move ||{
-        let mut cuenta_bancaria = tercer_receptor.recv().unwrap();
-        cuenta_bancaria.withdraw(70);
-        cuarto_emisor.send(cuenta_bancaria).unwrap();
+    let customer4_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
+
+        if let Ok(mut cuenta_bancaria) = tercer_receptor.recv(){
+            cuenta_bancaria.withdraw(70);
+            cuarto_emisor.send(cuenta_bancaria);
+        }else{
+            return Err(mpsc::RecvError);
+        }
+        Ok(())
+
+        //let mut cuenta_bancaria = tercer_receptor.recv().unwrap();
+        //cuenta_bancaria.withdraw(70);
+        //cuarto_emisor.send(cuenta_bancaria).unwrap();
         /*
         let mut cuenta_bancaria_ = match tercer_receptor.recv(){
             Ok(_) => cuenta_bancaria,
@@ -108,15 +138,20 @@ fn main() {
     customer1_handle,
     customer2_handle,
     customer3_handle,
-    customer4_handle,
     ];
     
     for handle in handles {
-        handle.join().unwrap();
-        //thread::sleep(Duration::from_secs(1));
+        if let Err(_error) = handle.join(){
+            panic!("Error con los threads");
+        }
     }
-    cuenta_bancaria = cuarto_receptor.recv().unwrap();
-    let savings = cuenta_bancaria.balance();
+
+    if let Ok(cuenta_bancaria) = cuarto_receptor.recv(){
+        let savings = cuenta_bancaria.balance();
     
-    println!("Balance: {:?}", savings);
+        println!("Balance: {:?}", savings);
+    }else{
+        panic!("Error con los threads");
+    }
+
 }
