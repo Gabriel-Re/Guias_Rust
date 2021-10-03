@@ -2,6 +2,8 @@ use std::thread;
 use std::sync::mpsc;
 mod threadpool;
 mod queue;
+mod threadmod;
+mod taskmod;
 
 /*
 Un threadpool mantiene varios hilos de ejecución (threads) en espera de que el programa 
@@ -27,6 +29,20 @@ Consideraciones a tener en cuenta:
 
 fn main() {
     let pool = threadpool::Threadpool::ThreadPool::new(4);
+    /*
+    let (primer_emisor, primer_receptor): (mpsc::Sender<Account>, mpsc::Receiver<Account>) = mpsc::channel();
+    let customer2_handle = thread::spawn(move || -> Result<(),mpsc::RecvError>{
+        if let Ok(mut cuenta_bancaria) = primer_receptor.recv(){
+            cuenta_bancaria.withdraw(30);
+            segundo_emisor.send(cuenta_bancaria);
+        }else{
+            return Err(mpsc::RecvError);
+        }
+        Ok(())
+
+    });
+    */
+
     /*
     for i in 0..4 {
         pool.spawn(move || {

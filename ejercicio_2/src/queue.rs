@@ -12,9 +12,7 @@ pub mod queue{
             }
         }
 
-
         pub fn agregar_tarea(&mut self, task: T){
-
             self.queue.push(task);
             self.tamanio +=1;
         }

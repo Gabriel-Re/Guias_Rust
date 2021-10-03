@@ -16,45 +16,41 @@ Recordar que un solo task opera por task
 
 pub mod Threadpool{
 
-    use std::task;
+    use std::sync::mpsc;
+    use crate::threadmod;
 
     pub struct ThreadPool{
+        threads: Vec<threadmod::threadmod::ThreadMod>,
         cantidad_hilos: u32,
+        esta_funcionando: bool,
+        sender: mpsc::Sender<()>,
         //vector_threads: Vec<thread>
         //Queue de tareas sin ejecutar
         //Cola de tareas ejecutandose?
         //Tareas completadas?
         //Estado del thread, libre o ocupado
+        //vectores de productores y consumidores?
     }
 
     impl ThreadPool{
 
         pub fn new(cantidad_hilos:u32) -> Self{
-            use std::thread;
+            //if cant == 0 error?
             let mut vector_hilos = vec!();
+            let (sender,receiver) = mpsc::channel();
 
             for i in 0..&cantidad_hilos+1{
-                vector_hilos.push(thread::spawn(move ||{
-                    println!("this is thread number {}", i);
-                }));
+                vector_hilos.push(threadmod::threadmod::ThreadMod::new(i));
             }
 
             ThreadPool{
-                cantidad_hilos: cantidad_hilos
-                //vector_hilos: vector_hilos
+                threads: vector_hilos,
+                cantidad_hilos: cantidad_hilos,
+                esta_funcionando: false,
+                sender: sender
             }
         }
         
-        /*
-        pub fn chequear_cantidad_hilos(self){
-            //if cantidad hijos < minima_cant_hijos{
-                // creo hijos segun cuantos falten
-            //}
-        }
-        */
-
-
-
     }
 
 }
