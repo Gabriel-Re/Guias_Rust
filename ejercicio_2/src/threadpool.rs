@@ -25,6 +25,7 @@ pub mod Threadpool{
     use std::sync::Arc;
     use std::sync::Mutex;
     use crate::worker;
+    use crate::message;
     
     type Job = Box<dyn FnOnce() + Send + 'static>;
     /*
@@ -34,7 +35,7 @@ pub mod Threadpool{
 
     pub struct ThreadPool{
         workers: Vec<worker::worker::Worker>,
-        sender: mpsc::Sender<Job>,
+        sender: mpsc::Sender<message::message::Message>,
     }
 
     impl ThreadPool{
@@ -70,9 +71,29 @@ pub mod Threadpool{
             {
                 let job = Box::new(f);
 
-                self.sender.send(job).unwrap();
+                self.sender.send(message::message::Message::NewJob(job)).unwrap();
             }
         
+    }
+
+    impl Drop for ThreadPool {
+        fn drop(&mut self) {
+            println!("Sending terminate message to all workers.");
+    
+            for _ in &self.workers {
+                self.sender.send(message::message::Message::Terminate).unwrap();
+            }
+    
+            println!("Shutting down all workers.");
+    
+            for worker in &mut self.workers {
+                println!("Shutting down worker {}", worker.id_thread);
+    
+                if let Some(thread) = worker.thread.take() {
+                    thread.join().unwrap();
+                }
+            }
+        }
     }
 
 }

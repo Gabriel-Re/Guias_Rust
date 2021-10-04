@@ -1,5 +1,7 @@
 mod threadpool;
 mod worker;
+mod message;
+
 
 /*
 Un threadpool mantiene varios hilos de ejecución (threads) en espera de que el programa 
