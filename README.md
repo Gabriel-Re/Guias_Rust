@@ -17,3 +17,5 @@
 ## Guia2: Concurrencia en Rust
 
 ### Ejercicio 1 - Cuentas bancarias
+
+### Ejercicio 2 - ThreadPool
