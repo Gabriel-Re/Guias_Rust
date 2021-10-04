@@ -1,5 +1,4 @@
 mod threadpool;
-mod queue;
 mod worker;
 
 /*
@@ -24,8 +23,35 @@ Consideraciones a tener en cuenta:
 
 */
 
+
+pub fn imprimir_concurrentemente(){
+    println!("1. Aguante bokita el más grande papá");
+}
+pub fn imprimir_concurrentemente2(){
+    println!("2. Aguante bokita el más grande papá");
+}
+pub fn imprimir_concurrentemente3(){
+    println!("3. Aguante bokita el más grande papá");
+}
+pub fn imprimir_concurrentemente4(){
+    println!("4. Aguante bokita el más grande papá");
+}
+pub fn imprimir_concurrentemente5(){
+    println!("5. Aguante bokita el más grande papá");
+}
+pub fn imprimir_concurrentemente6(){
+    println!("6. Aguante bokita el más grande papá");
+}
+
 fn main() {
     let pool = threadpool::Threadpool::ThreadPool::new(4);
     
-    //pool.execute();
+    pool.execute(||{
+        imprimir_concurrentemente();
+        imprimir_concurrentemente2();
+        imprimir_concurrentemente3();
+        imprimir_concurrentemente4();
+        imprimir_concurrentemente5();
+        imprimir_concurrentemente6()
+    })
 }

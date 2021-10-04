@@ -27,6 +27,10 @@ pub mod Threadpool{
     use crate::worker;
     
     type Job = Box<dyn FnOnce() + Send + 'static>;
+    /*
+    we need Send to transfer the closure from one thread to another and 'static because 
+    we don’t know how long the thread will take to execute
+    */
 
     pub struct ThreadPool{
         workers: Vec<worker::worker::Worker>,
@@ -57,7 +61,6 @@ pub mod Threadpool{
             ThreadPool{
                 workers: vector_workers,
                 sender: sender,
-           //     queue: queue::queue::Queue::new(),
             }
         }
 
@@ -65,7 +68,9 @@ pub mod Threadpool{
             where
                 F:FnOnce() + Send + 'static,
             {
+                let job = Box::new(f);
 
+                self.sender.send(job).unwrap();
             }
         
     }
