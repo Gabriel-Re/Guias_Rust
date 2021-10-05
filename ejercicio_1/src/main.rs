@@ -59,6 +59,5 @@ fn main() {
          });
 
          thread_hijo.join().unwrap();
-
 }
 
