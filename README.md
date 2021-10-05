@@ -14,8 +14,10 @@
 
 ### Ejercicio 2 - diff (incompleto)
 
-## Guia2: Concurrencia en Rust
+## Guia3: Concurrencia en Rust
 
 ### Ejercicio 1 - Cuentas bancarias
 
 ### Ejercicio 2 - ThreadPool
+
+## Guia4: Sockets en Rust
