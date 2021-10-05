@@ -23,7 +23,8 @@ pub fn handle_connection(mut stream: TcpStream) {
 
     stream.read(&mut buffer).unwrap(); //Leo los datos del socket
 
-    let response = "Respuesta del servidor al cliente, deberia printearse en el hostlocal";
+    //let response = "Respuesta del servidor al cliente, deberia printearse en el hostlocal";
+    let response = "Hola hijo";
 
     stream.write(response.as_bytes()).unwrap(); // Escribo una espuesta para el cliente
     stream.flush().unwrap();
@@ -33,12 +34,6 @@ pub fn handle_connection(mut stream: TcpStream) {
 }
 
 fn main() {
-    //println!("Hello, world!");
-    /*
-    let thread = thread::spawn(|| {
-       println!("Buen día Papá"); 
-    });
-    */
 
     //Server
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -51,6 +46,19 @@ fn main() {
         Ok((_socket, addr)) => handle_connection(_socket),
         Err(e) => println!("error: {:?}", e),
         }
+
+
+        let thread_hijo = thread::spawn(move || {
+            let socket =SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 7878); 
+
+            if let Ok(stream) = TcpStream::connect("127.0.0.1:7878") {
+                println!("Buen día Papá");
+                } else {
+                println!("No se pudo conectar...");
+                }
+         });
+
+         thread_hijo.join().unwrap();
 
 }
 
